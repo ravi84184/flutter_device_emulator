@@ -39,13 +39,43 @@ DeviceEmulator(
 See the [`example/`](example/) directory for a complete sample app demonstrating usage and available features.
 
 ## API Reference
-- `DeviceEmulator`: The main widget to wrap your app for device emulation.
-- Configuration options:
-  - `device`: Select the device type or provide custom dimensions.
-  - `orientation`: Set portrait or landscape mode.  
 
-For detailed API documentation, see the source code in [`lib/`](lib/).             
+### `DeviceEmulator`
+The main widget to wrap your app for device emulation. Provides controls for device type, orientation, theme, and text direction.
 
+**Constructor:**
+```dart
+DeviceEmulator({
+  required WidgetBuilder builder,
+  bool enableThemeToggle = true,
+  bool enableOrientationToggle = true,
+  bool enableLanguageToggle = true,
+  Key? key,
+})
+```
+
+**Parameters:**
+- `builder` (**required**): A function that builds the widget tree to be emulated inside the device frame.
+- `enableThemeToggle` (default: `true`): If true, shows a button to toggle between light and dark themes.
+- `enableOrientationToggle` (default: `true`): If true, shows a button to toggle between portrait and landscape orientations.
+- `enableLanguageToggle` (default: `true`): If true, shows a button to toggle between left-to-right and right-to-left text directions.
+- `key`: Optional widget key.
+
+**Features:**
+- Device selector: Choose from a list of common devices to emulate.
+- Theme toggle: Switch between light and dark modes.
+- Orientation toggle: Switch between portrait and landscape.
+- Text direction toggle: Switch between LTR and RTL layouts.
+- Screenshot: Capture the current emulated screen (web only).
+
+**Example:**
+```dart
+DeviceEmulator(
+  builder: (context) => SafeArea(child: HomePage()),
+)
+```
+
+For detailed API documentation, see the source code in [`lib/`](lib/).
 
 ## Contributing
 Contributions are welcome! Please open issues or submit pull requests for bug fixes, features, or improvements.
