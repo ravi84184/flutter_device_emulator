@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_device_emulator_example/generated/assets.dart';
+import 'package:flutter_device_emulator_example/generated/assets.dart'
+    show AppAssets;
 
 class Sidebar extends StatelessWidget {
   final bool isExpanded;
