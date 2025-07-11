@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
 import 'package:device_frame/device_frame.dart' hide DeviceType;
-import 'dart:html' as html;
+import 'dart:typed_data';
+import '../screenshot_saver_stub.dart'
+    if (dart.library.html) '../screenshot_saver_web.dart';
 
 class DeviceEmulator extends StatefulWidget {
   final WidgetBuilder builder;
@@ -224,18 +226,7 @@ class _DeviceEmulatorState extends State<DeviceEmulator> {
       ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
       if (byteData != null) {
         final pngBytes = byteData.buffer.asUint8List();
-        if (kIsWeb) {
-          // Web: trigger browser download
-          final blob = html.Blob([pngBytes]);
-          final url = html.Url.createObjectUrlFromBlob(blob);
-          html.AnchorElement(href: url)
-            ..setAttribute(
-              'download',
-              'screenshot_${DateTime.now().millisecondsSinceEpoch}.png',
-            )
-            ..click();
-          html.Url.revokeObjectUrl(url);
-        }
+        saveScreenshot(pngBytes);
       }
     } catch (e) {
       // Handle error
