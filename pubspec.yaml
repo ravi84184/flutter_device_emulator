@@ -1,6 +1,6 @@
 name: flutter_device_emulator
 description: "Preview your Flutter widgets across multiple device screens in real-time. Supports iPhone, Pixel, tablet, and foldable layouts with toggles for dark/light themes, text directions (LTR/RTL), and orientation (portrait/landscape). Ideal for building responsive and internationalized UIs quickly."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/ravi84184/flutter_device_emulator
 repository: https://github.com/ravi84184/flutter_device_emulator
 
