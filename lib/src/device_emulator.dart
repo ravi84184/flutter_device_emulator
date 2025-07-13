@@ -5,15 +5,113 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
 import 'package:device_frame/device_frame.dart' hide DeviceType;
 import 'dart:typed_data';
+
 import '../screenshot_saver_stub.dart'
     if (dart.library.html) '../screenshot_saver_web.dart';
 
+/// A widget that provides a device emulator for testing and previewing Flutter applications.
+///
+/// The [DeviceEmulator] widget wraps your application in a device frame and provides
+/// interactive controls to test different device configurations, themes, orientations,
+/// and text directions. This is particularly useful for:
+///
+/// - **Device Testing**: Preview your app on different device types (iPhone, Android, etc.)
+/// - **Theme Testing**: Toggle between light and dark themes to ensure proper theming
+/// - **Orientation Testing**: Test both portrait and landscape orientations
+/// - **RTL Support**: Test right-to-left text direction for internationalization
+/// - **Screenshot Capture**: Take high-quality screenshots of your app in different states
+///
+/// ## Features
+///
+/// - **Device Frame**: Realistic device frames with proper screen dimensions
+/// - **Interactive Controls**: Floating control panel with device selector and toggles
+/// - **Theme Switching**: Instant switching between light and dark themes
+/// - **Orientation Toggle**: Switch between portrait and landscape modes
+/// - **Text Direction**: Test RTL (right-to-left) text direction support
+/// - **Screenshot Capture**: Save high-resolution screenshots of the emulated device
+///
+/// ## Example
+///
+/// ```dart
+/// import 'package:flutter_device_emulator/flutter_device_emulator.dart';
+///
+/// class MyApp extends StatelessWidget {
+///   @override
+///   Widget build(BuildContext context) {
+///     return MaterialApp(
+///       home: DeviceEmulator(
+///         builder: (context) => MyHomePage(),
+///         enableThemeToggle: true,
+///         enableOrientationToggle: true,
+///         enableLanguageToggle: true,
+///       ),
+///     );
+///   }
+/// }
+/// ```
 class DeviceEmulator extends StatefulWidget {
+  /// A builder function that creates the widget tree to be displayed inside the device frame.
+  ///
+  /// This is typically your main application widget or a specific screen you want to test.
+  /// The builder receives a [BuildContext] and should return the widget to be rendered
+  /// within the device emulator.
+  ///
+  /// ## Example
+  ///
+  /// ```dart
+  /// DeviceEmulator(
+  ///   builder: (context) => MyHomePage(),
+  /// )
+  /// ```
   final WidgetBuilder builder;
+
+  /// Whether to enable the theme toggle control in the device emulator.
+  ///
+  /// When `true` (default), users can toggle between light and dark themes
+  /// using the theme button in the control panel. When `false`, the theme
+  /// toggle button is hidden and the app uses the default theme.
   final bool enableThemeToggle;
+
+  /// Whether to enable the orientation toggle control in the device emulator.
+  ///
+  /// When `true` (default), users can toggle between portrait and landscape
+  /// orientations using the orientation button in the control panel. When `false`,
+  /// the orientation toggle button is hidden and the app uses the default orientation.
   final bool enableOrientationToggle;
+
+  /// Whether to enable the language/text direction toggle control in the device emulator.
+  ///
+  /// When `true` (default), users can toggle between left-to-right (LTR) and
+  /// right-to-left (RTL) text directions using the text direction button in the
+  /// control panel. This is useful for testing internationalization support.
+  /// When `false`, the text direction toggle button is hidden.
   final bool enableLanguageToggle;
 
+  /// Creates a device emulator widget.
+  ///
+  /// The [builder] parameter is required and should provide the widget tree
+  /// to be displayed inside the device frame. All other parameters are optional
+  /// and control which interactive features are available in the emulator.
+  ///
+  /// ## Parameters
+  ///
+  /// - [key] - The widget key for this widget
+  /// - [builder] - A builder function that creates the widget to display in the device frame
+  /// - [enableThemeToggle] - Whether to show the theme toggle control (default: true)
+  /// - [enableOrientationToggle] - Whether to show the orientation toggle control (default: true)
+  /// - [enableLanguageToggle] - Whether to show the text direction toggle control (default: true)
+  ///
+  /// ## Example
+  ///
+  /// ```dart
+  /// DeviceEmulator(
+  ///   key: Key('my-device-emulator'),
+  ///   builder: (context) => MyApp(),
+  ///   enableThemeToggle: true,
+  ///   enableOrientationToggle: false, // Disable orientation toggle
+  ///   enableLanguageToggle: true,
+  /// )
+  /// ```
   const DeviceEmulator({
     super.key,
     required this.builder,
@@ -226,7 +324,7 @@ class _DeviceEmulatorState extends State<DeviceEmulator> {
       ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
       if (byteData != null) {
         final pngBytes = byteData.buffer.asUint8List();
-        saveScreenshot(pngBytes);
+        saveScreenshotPlatform(pngBytes);
       }
     } catch (e) {
       // Handle error

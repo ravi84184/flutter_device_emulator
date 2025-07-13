@@ -4,6 +4,8 @@
 
 A Flutter package to emulate different device screens and layouts, making it easier to preview and test your app on various device types and resolutions directly within your Flutter app or development environment.
 
+![flutter_device_emulator demo](ss.gif)
+
 ## Features
 - Emulate multiple device screen sizes and resolutions
 - Switch between device types (phone, tablet, etc.)

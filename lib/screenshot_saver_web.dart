@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:web/web.dart' as web;
 
-Future<void> saveScreenshot(
+Future<void> saveScreenshotPlatform(
   Uint8List uInt8List, {
   String imageType = 'image/png',
   double imageQuality = 0.95,
@@ -37,7 +37,7 @@ Future<void> saveScreenshot(
     final dataUrl = canvas.toDataUrl(imageType, imageQuality);
     final web.HTMLAnchorElement anchorElement = web.HTMLAnchorElement();
     anchorElement.href = dataUrl;
-    anchorElement.download = name ?? dataUrl;
+    anchorElement.download = name;
     anchorElement.click();
   });
 }
